@@ -31,6 +31,6 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
             return null;
         }
 
-        return ((CustomUser) authentication.getPrincipal()).getUser().getId();
+        return ((CustomUser) authentication.getPrincipal()).getId();
     }
 }

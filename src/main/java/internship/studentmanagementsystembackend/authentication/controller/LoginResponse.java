@@ -13,7 +13,7 @@ public record LoginResponse(
 ) {
     public static LoginResponse fromAuthentication(Authentication authentication) {
         return new LoginResponse(
-                ((CustomUser) authentication.getPrincipal()).getUser().getId(),
+                ((CustomUser) authentication.getPrincipal()).getId(),
                 ((CustomUser) authentication.getPrincipal()).getUsername(),
                 authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
         );

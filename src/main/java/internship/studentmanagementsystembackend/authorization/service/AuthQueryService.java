@@ -18,7 +18,7 @@ public class AuthQueryService {
     @Transactional
     public CustomUser getUserLoginByUser(Long id) {
         return customUserRepository.findCustomUserById(id)
-                .orElseThrow(() -> new EntityNotFoundException("UserLogin not found".formatted(id)));
+                .orElseThrow(() -> new EntityNotFoundException("Custom User not found".formatted(id)));
     }
     public List<CustomUser> getAllUserLogins() {
         return customUserRepository.findAll();
