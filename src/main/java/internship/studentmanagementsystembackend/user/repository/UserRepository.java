@@ -1,0 +1,7 @@
+package internship.studentmanagementsystembackend.user.repository;
+
+import internship.studentmanagementsystembackend.user.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+}
