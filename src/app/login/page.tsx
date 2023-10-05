@@ -1,37 +1,33 @@
 'use client'
-
 import React, { useState } from "react";
 import AuthService from "@/app/login/LoginService";
 import { useRouter } from "next/navigation";
-import { Button, TextField, Typography, Box, Snackbar } from "@mui/material";
-import MuiAlert from "@mui/material/Alert";
+import { Button, TextField, Typography, Box } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [open, setOpen] = useState(false);
     const router = useRouter();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
             await AuthService.login({ username, password });
-            router.push("/anasayfa");
+            toast.success("Giriş başarılı");
+            setTimeout(() => {
+                router.push("/anasayfa");
+            }, 1000);
         } catch (error) {
             if (error.response && error.response.status === 401) {
-                setErrorMessage("Kullanıcı adı veya şifre yanlış.");
+                toast.error("Kullanıcı adı veya şifre hatalı");
             } else {
-                setErrorMessage("Bir hata oluştu. Lütfen tekrar deneyin.");
+                toast.error("Kullanıcı adı veya şifre hatalı");
             }
-            setOpen(true);
         }
-    };
-
-    const handleSnackbarClose = () => {
-        setOpen(false);
     };
 
     return (
@@ -70,31 +66,24 @@ export default function LoginPage() {
                         }}
                     />
                 </div>
-                {errorMessage && (
-                    <Box mt={2}>
-                        <MuiAlert severity="error">{errorMessage}</MuiAlert>
-                    </Box>
-                )}
+
                 <div>
                     <Button type="submit" variant="contained" color="primary">
                         Giriş Yap
                     </Button>
                 </div>
             </form>
-            <Snackbar
-                open={open}
-                autoHideDuration={6000}
-                onClose={handleSnackbarClose}
-            >
-                <MuiAlert
-                    elevation={6}
-                    variant="filled"
-                    severity="error"
-                    onClose={handleSnackbarClose}
-                >
-                    {errorMessage}
-                </MuiAlert>
-            </Snackbar>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
     );
 }
