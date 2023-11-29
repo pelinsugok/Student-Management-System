@@ -28,16 +28,17 @@ public class CustomUser implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_authorities", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))
-    private List<Authority> authorities;
+    private List<Authority> authorities = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public CustomUser(String username, String password, String authority) {
+
+    public CustomUser(String username, String password, List<Authority> authorities) {
         this.username = username;
         this.password = password;
-        this.authorities = generateAuthorityList(authority);
+        this.authorities = authorities;
     }
 
     public static String createUsername(String name, String surname) {
@@ -66,23 +67,6 @@ public class CustomUser implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Authority> generateAuthorityList(String authority) {
-        List<Authority> authorities = new ArrayList<>();
-        authorities.add(new Authority("STUDENT"));
-        switch (authority) {
-            case "Admin":
-                authorities.add(new Authority("ADMIN"));
-            case "Instructor":
-                authorities.add(new Authority("INSTRUCTOR"));
-            case "Assistant":
-                authorities.add(new Authority("ASSISTANT"));
-                break;
-            default:
-                break;
-        }
-        return authorities;
     }
 
     public void setUser(User user) {

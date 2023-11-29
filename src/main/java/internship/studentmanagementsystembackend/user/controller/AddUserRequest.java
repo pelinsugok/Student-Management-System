@@ -23,7 +23,7 @@ public record AddUserRequest(
 
 
     public User toEntity() {
-        CustomUser customUser = new CustomUser(CustomUser.createUsername(name, surname), CustomUser.generatePassword(), authority);
+        CustomUser customUser = new CustomUser(CustomUser.createUsername(name, surname), CustomUser.generatePassword(), List.of(new Authority("ASSISTANT")));
         User user = new User(customUser, name, surname, school, email);
         customUser.setUser(user);
         return user;

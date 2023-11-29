@@ -32,7 +32,7 @@ public class UserService {
 
     public User findUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with ID %d not found".formatted(id)));
+                .orElseThrow(() -> new EntityNotFoundException("User with ID %d not found!".formatted(id)));
 
     }
 
@@ -48,7 +48,7 @@ public class UserService {
         } else {
             existingUser.updateUser(user);
             userRepository.save(existingUser);
-            return new MessageResponse("User with ID %d has been updated successfully".formatted(id), MessageType.SUCCESS);
+            return new MessageResponse("User with ID %d has been updated successfully!".formatted(id), MessageType.SUCCESS);
         }
     }
 }
